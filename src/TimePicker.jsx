@@ -115,7 +115,6 @@ export default class Picker extends Component {
   }
 
   onPanelClear = () => {
-    this.setValue(null);
     this.setOpen(false);
   }
 
