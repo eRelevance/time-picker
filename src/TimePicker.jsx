@@ -12,10 +12,11 @@ function refFn(field, component) {
   this[field] = component;
 }
 
-class Picker extends Component {
+export default class Picker extends Component {
   static propTypes = {
     prefixCls: PropTypes.string,
     clearText: PropTypes.string,
+    clearOnClose: PropTypes.bool,
     value: PropTypes.object,
     defaultOpenValue: PropTypes.object,
     disabled: PropTypes.bool,
@@ -50,6 +51,7 @@ class Picker extends Component {
 
   static defaultProps = {
     clearText: 'clear',
+    clearOnClose: true,
     prefixCls: 'rc-time-picker',
     defaultOpen: false,
     style: {},
@@ -101,6 +103,9 @@ class Picker extends Component {
   }
 
   onPanelClear = () => {
+    if (this.props.clearOnClose) {
+      this.setValue(null);
+    }
     this.setOpen(false);
   }
 
@@ -266,5 +271,3 @@ class Picker extends Component {
     );
   }
 }
-
-export default Picker;
