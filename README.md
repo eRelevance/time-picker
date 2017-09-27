@@ -1,6 +1,6 @@
 # TimePicker
 
-React TimePicker
+This is a fork of React TimePicker that supports changes they refused to add to master.
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
