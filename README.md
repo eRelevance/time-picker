@@ -1,6 +1,6 @@
 # TimePicker
 
-React TimePicker
+This is a fork of React TimePicker that supports changes they refused to add to master.
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -77,6 +77,11 @@ API
 | name                    | String                            | - | sets the name of the generated input |
 | onOpen                  | Function({ open })                |   | when TimePicker panel is opened      |
 | onClose                 | Function({ open })                |   | when TimePicker panel is opened      |
+| hourStep                | Number                            | 1 | interval between hours in picker  |
+| minuteStep              | Number                            | 1 | interval between minutes in picker  |
+| secondStep              | Number                            | 1 | interval between seconds in picker  |
+| focusOnOpen             | Boolean                           | false | automatically focus the input when the picker opens |
+| inputReadOnly             | Boolean                           | false | set input to read only |
 
 ## Test Case
 

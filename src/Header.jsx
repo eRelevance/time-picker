@@ -10,6 +10,7 @@ class Header extends Component {
     placeholder: PropTypes.string,
     clearText: PropTypes.string,
     value: PropTypes.object,
+    inputReadOnly: PropTypes.bool,
     hourOptions: PropTypes.array,
     minuteOptions: PropTypes.array,
     secondOptions: PropTypes.array,
@@ -22,7 +23,13 @@ class Header extends Component {
     allowEmpty: PropTypes.bool,
     defaultOpenValue: PropTypes.object,
     currentSelectPanel: PropTypes.string,
+    focusOnOpen: PropTypes.bool,
+    onKeyDown: PropTypes.func,
   };
+
+  static defaultProps = {
+    inputReadOnly: false,
+  }
 
   constructor(props) {
     super(props);
@@ -31,6 +38,17 @@ class Header extends Component {
       str: value && value.format(format) || '',
       invalid: false,
     };
+  }
+
+  componentDidMount() {
+    if (this.props.focusOnOpen) {
+      // Wait one frame for the panel to be positioned before focusing
+      const requestAnimationFrame = (window.requestAnimationFrame || window.setTimeout);
+      requestAnimationFrame(() => {
+        this.refs.input.focus();
+        this.refs.input.select();
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -122,9 +140,12 @@ class Header extends Component {
   }
 
   onKeyDown = (e) => {
+    const { onEsc, onKeyDown } = this.props;
     if (e.keyCode === 27) {
-      this.props.onEsc();
+      onEsc();
     }
+
+    onKeyDown(e);
   }
 
   onClear = () => {
@@ -150,7 +171,7 @@ class Header extends Component {
   }
 
   getInput() {
-    const { prefixCls, placeholder } = this.props;
+    const { prefixCls, placeholder, inputReadOnly } = this.props;
     const { invalid, str } = this.state;
     const invalidClass = invalid ? `${prefixCls}-input-invalid` : '';
     return (
@@ -161,6 +182,7 @@ class Header extends Component {
         value={str}
         placeholder={placeholder}
         onChange={this.onInputChange}
+        readOnly={!!inputReadOnly}
       />
     );
   }

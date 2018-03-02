@@ -92,7 +92,7 @@ describe('TimePicker', () => {
         setTimeout(next, 100);
       }, (next) => {
         expect(TestUtils.scryRenderedDOMComponentsWithClass(picker,
-          'rc-time-picker-panel-inner')[0]).not.to.be.ok();
+          'rc-time-picker-panel-inner')[0]).to.be.ok();
         expect(picker.state.open).to.be(true);
         if (document.querySelectorAll) {
           expect(document.querySelectorAll('.rc-time-picker').length).not.to.be(0);
@@ -202,6 +202,42 @@ describe('TimePicker', () => {
       }, (next) => {
         expect(change).to.be.ok();
         expect(picker.state.open).to.be.ok();
+        next();
+      }], () => {
+        done();
+      });
+    });
+  });
+
+  describe('other operations', () => {
+    it('focus/blur correctly', (done) => {
+      let focus = false;
+      let blur = false;
+
+      const picker = renderPicker({
+        onFocus: () => {
+          focus = true;
+        },
+        onBlur: () => {
+          blur = true;
+        },
+      });
+      expect(picker.state.open).not.to.be.ok();
+      const input = TestUtils.scryRenderedDOMComponentsWithClass(picker,
+        'rc-time-picker-input')[0];
+
+      async.series([(next) => {
+        Simulate.focus(input);
+        setTimeout(next, 100);
+      }, (next) => {
+        expect(picker.state.open).to.be(false);
+
+        Simulate.blur(input);
+        setTimeout(next, 100);
+      }, (next) => {
+        expect(focus).to.be(true);
+        expect(blur).to.be(true);
+
         next();
       }], () => {
         done();
